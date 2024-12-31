@@ -1,0 +1,17 @@
+部署方法
+
+1.windows 
+下载并安装java17 环境
+
+在文件下放置
+hunyuanDemo.jar
+在dos 命令下运行 java -jar hunyuanDemo.jar
+在网页端运行localhost:8083
+
+
+2.Linux
+将hunyuanDemo.jar上传到指定的文件目录下
+下载并安装java17 环境
+使用cd命令进入指令文件目录下
+运行 java -jar hunyuanDemo.jar
+在网页端运行your-ip:8083

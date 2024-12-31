@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HunyuanGPT</title>
+<!--css页面布局部分-->
+    <!-- 引入外部 CSS 文件 -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /*!* 整个页面的基本样式 布局方式使用flexbox *!*/
+
+        /*body {*/
+        /*    font-family: Arial, sans-serif;*/
+        /*    background-color: #f4f4f4;*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    justify-content: flex-start;*/
+        /*    align-items: center;*/
+        /*    height: 100vh;*/
+        /*    margin: 0;*/
+        /*    padding: 20px;*/
+        /*}*/
+        /*!* 定义聊天容器的样式，包括宽度、高度、背景颜色、布局方式（使用flexbox），以及相对定位。 *!*/
+
+        /*#chat-container {*/
+        /*    width: 98%;*/
+        /*    height: 98%;*/
+        /*    background-color: #f4f4f4;*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    position: relative;*/
+        /*}*/
+        /*!* 设置消息显示区域的样式 问答都包括，包括自动垂直滚动、内边距、底部边框和背景颜色。 *!*/
+
+        /*#messages {*/
+        /*    flex-grow: 1;*/
+        /*    overflow-y: auto;*/
+        /*    padding: 20px;*/
+        /*    border-bottom: 1px solid #ddd;*/
+        /*    background-color: #f4f4f4;*/
+        /*}*/
+        /*!* 设置每条消息的外部容器的样式，包括flexbox布局和底部外边距。 *!*/
+
+        /*.message-wrapper {*/
+        /*    display: flex;*/
+        /*    margin-bottom: 10px;*/
+        /*}*/
+        /*!* 设置每条消息的样式，包括最大宽度、内边距、圆角、底部外边距、相对定位和自动换行。 *!*/
+
+        /*.message {*/
+        /*    max-width: 60%;*/
+        /*    padding: 10px;*/
+        /*    border-radius: 10px;*/
+        /*    margin-bottom: 10px;*/
+        /*    position: relative;*/
+        /*    word-wrap: break-word;*/
+        /*}*/
+        /*!* 为用户消息设置特定的样式，使其靠右对齐，并设置消息的背景颜色、文字颜色和圆角样式。 *!*/
+        /*!* 对应的元素：<div class="message-wrapper message-user"> 和 <div class="message"> 内的用户消息。 *!*/
+
+        /*.message-user {*/
+        /*    justify-content: flex-end;*/
+        /*}*/
+
+        /*.message-user .message {*/
+        /*    background-color: #d1e7dd;*/
+        /*    color: #0f5132;*/
+        /*    border-radius: 10px 10px 0 10px;*/
+        /*}*/
+
+        /*.message-bot {*/
+        /*    justify-content: flex-start;*/
+        /*}*/
+
+        /*.message-bot .message {*/
+        /*    background-color: #cfe2ff;*/
+        /*    color: #084298;*/
+        /*    border-radius: 10px 10px 10px 0;*/
+        /*}*/
+
+        /*.message-code {*/
+        /*    background-color: #f4f4f4;*/
+        /*    color: black;*/
+        /*    border: 1px solid #ddd;*/
+        /*    padding: 10px;*/
+        /*    border-radius: 5px;*/
+        /*    white-space: pre-wrap;*/
+        /*    font-family: monospace;*/
+        /*}*/
+
+        /*#input-container {*/
+        /*    !*display: flex;*!*/
+        /*    !*padding: 10px;*!*/
+        /*    !*background-color: #fff;*!*/
+        /*    !*border-top: 1px solid #ddd;*!*/
+
+        /*    !*添加属性*!*/
+        /*    display: flex;*/
+        /*    padding: 5px;*/
+        /*    background-color: #fff;*/
+        /*    border-top: 1px solid #ddd;*/
+        /*    width: 100%;*/
+        /*    height: 62px; !* 设置固定高度 *!*/
+        /*    box-sizing: border-box; !* 确保内边距和边框包括在总宽度和高度中 *!*/
+        /*    align-items: center; !* 垂直居中对齐子元素 *!*/
+        /*}*/
+
+        /*#query {*/
+        /*    !*flex-grow: 1;*!*/
+        /*    !*padding: 10px;*!*/
+        /*    !*border: 1px solid #ddd;*!*/
+        /*    !*border-radius: 5px;*!*/
+        /*    !*添加属性*!*/
+        /*    flex-grow: 1;*/
+        /*    padding: 10px;*/
+        /*    border: 1px solid #ddd;*/
+        /*    border-radius: 5px;*/
+        /*    resize: none; !* 禁止用户手动调整大小 *!*/
+        /*    min-height: 32px; !* 设置最小高度 *!*/
+        /*    overflow-y: auto; !* 允许垂直滚动 *!*/
+        /*    margin-right: 10px; !* 给按钮留出空间 *!*/
+        /*    height: 42px; !* 设置固定高度与按钮一致 *!*/
+        /*    box-sizing: border-box; !* 确保内边距和边框包括在总宽度和高度中 *!*/
+        /*}*/
+
+        /*#send-btn {*/
+        /*    !*padding: 10px 20px;*!*/
+        /*    !*border: none;*!*/
+        /*    !*background-color: #609966;*!*/
+        /*    !*color: white;*!*/
+        /*    !*cursor: pointer;*!*/
+        /*    !*border-radius: 5px;*!*/
+        /*    !*margin-left: 10px;*!*/
+
+        /*    !*!*添加属性*!*!*/
+        /*    !*padding: 0 20px; !* 调整内边距，使其与输入框的高度一致 *!*!*/
+        /*    !*border: none;*!*/
+        /*    !*background-color: #609966;*!*/
+        /*    !*color: white;*!*/
+        /*    !*cursor: pointer;*!*/
+        /*    !*border-radius: 5px;*!*/
+        /*    !*height: 60px; !* 设置固定高度与输入框一致 *!*!*/
+        /*    !*align-self: center; !* 垂直居中对齐 *!*!*/
+
+
+        /*    !*第二次修改*!*/
+        /*    width: 42px; !* 设置按钮的宽度 *!*/
+        /*    height: 42px; !* 设置按钮的高度，与输入框一致 *!*/
+        /*    border: none;*/
+        /*    background-color: #609966;*/
+        /*    color: white;*/
+        /*    cursor: pointer;*/
+        /*    border-radius: 50%; !* 使按钮变为圆形 *!*/
+        /*    display: flex;*/
+        /*    align-items: center; !* 垂直居中对齐按钮内部内容 *!*/
+        /*    justify-content: center; !* 水平居中对齐按钮内部内容 *!*/
+        /*    padding: 0; !* 移除内边距 *!*/
+        /*    font-size: 16px; !* 设置字体大小 *!*/
+        /*}*/
+
+        /*#send-btn:hover {*/
+        /*    background-color: #507b54;*/
+        /*}*/
+
+        /*#label {*/
+        /*    position: fixed;*/
+        /*    top: 36%;*/
+        /*    left: 50%;*/
+        /*    transform: translate(-50%, -50%);*/
+        /*    z-index: 1100;*/
+        /*    !* 比 #qrcode-container 更高的 z-index *!*/
+        /*}*/
+
+        /*#qrcode-container {*/
+        /*    position: fixed;*/
+        /*    top: 50%;*/
+        /*    left: 50%;*/
+        /*    transform: translate(-50%, -50%);*/
+        /*    display: flex;*/
+        /*    justify-content: center;*/
+        /*    align-items: center;*/
+        /*    z-index: 1000;*/
+        /*    background-color: gray;*/
+        /*    padding: 0px;*/
+        /*    border: none;*/
+        /*    border-radius: 0px;*/
+        /*    margin-top: 0px; !* 增加 margin-top 来增加距离 文字二维码之间的距离 *!*/
+        /*    line-height: 0; !* 避免行高造成的空白 *!*/
+        /*    box-shadow: none;*/
+        /*}*/
+
+        /*#qrcode-container img {*/
+        /*    max-width: 400px; !* 增加最大宽度 *!*/
+        /*    width: 100%;      !* 让图片填满父容器 *!*/
+        /*    height: auto;     !* 保持图片的比例 *!*/
+        /*    display: block;   !* 去除图片底部默认的行内空白 *!*/
+        /*    margin: 0;        !* 去除外边距 *!*/
+        /*    padding: 0;       !* 去除内边距 *!*/
+        /*    border: none;     !* 确保没有边框 *!*/
+        /*    vertical-align: top;    !* 去除行内元素空隙 *!*/
+        /*}*/
+
+        /*.loading-spinner {*/
+        /*    border: 4px solid #f3f3f3;*/
+        /*    border-radius: 50%;*/
+        /*    border-top: 4px solid #3498db;*/
+        /*    width: 20px;*/
+        /*    height: 20px;*/
+        /*    animation: spin 1s linear infinite;*/
+        /*}*/
+
+        /*@keyframes spin {*/
+        /*    0% {*/
+        /*        transform: rotate(0deg);*/
+        /*    }*/
+        /*    100% {*/
+        /*        transform: rotate(360deg);*/
+        /*    }*/
+        /*}*/
+    </style>
+</head>
+
+<body>
+<!--html部分-->
+<div id="chat-container">
+    <span id="label" style="font-weight: bold; font-style: italic;">🐧您的支持是本站的动力🐧</span>
+
+    <div id="qrcode-container">
+        <img src="./qrcode.jpg" alt="QR Code">
+    </div>
+    <div id="messages"></div>
+    <div id="input-container">
+        <textarea id="query" placeholder="请输入提示词..."></textarea>
+        <button id="send-btn">发送</button>
+    </div>
+</div>
+
+<!--js行为逻辑部分-->
+<script src="/js/chat.js">
+    // const messagesDiv = document.getElementById('messages');
+    // const queryInput = document.getElementById('query');
+    // const sendBtn = document.getElementById('send-btn');
+    // const qrCodeContainer = document.getElementById('qrcode-container');
+    // const label = document.getElementById('label');
+    //
+    // // 请求部分立即显示
+    // function appendQuery(text, className) {
+    //     const messageWrapper = document.createElement('div');
+    //     messageWrapper.className = `message-wrapper ${className}`;
+    //
+    //     const messageDiv = document.createElement('div');
+    //     messageDiv.className = 'message';
+    //     messageDiv.textContent = text;
+    //
+    //     messageWrapper.appendChild(messageDiv);
+    //     messagesDiv.appendChild(messageWrapper);
+    //     messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    // }
+    //
+    // // 回复部分使用打字机效果
+    // function appendMessage(text, className) {
+    //     const messageWrapper = document.createElement('div');
+    //     messageWrapper.className = `message-wrapper ${className}`;
+    //
+    //     const messageDiv = document.createElement('div');
+    //     messageDiv.className = 'message';
+    //     messageWrapper.appendChild(messageDiv);
+    //     messagesDiv.appendChild(messageWrapper);
+    //     typeWriter(messageDiv, text);
+    // }
+    //
+    // function appendCodeMessage(code) {
+    //     const messageWrapper = document.createElement('div');
+    //     messageWrapper.className = 'message-wrapper message-bot';
+    //
+    //     const messageDiv = document.createElement('div');
+    //     messageDiv.className = 'message message-code';
+    //     messageWrapper.appendChild(messageDiv);
+    //     messagesDiv.appendChild(messageWrapper);
+    //     typeWriter(messageDiv, code);
+    // }
+    //
+    // function typeWriter(element, text, index = 0) {
+    //     if (index < text.length) {
+    //         if (text.charAt(index) === '\n') {
+    //             element.appendChild(document.createElement('br'));
+    //         } else {
+    //             const span = document.createElement('span');
+    //             span.textContent = text.charAt(index);
+    //             element.appendChild(span);
+    //         }
+    //         setTimeout(() => typeWriter(element, text, index + 1), 16); // 更改打字速度
+    //     } else {
+    //         messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    //     }
+    // }
+    //
+    // function sendPostRequest() {
+    //     const query = queryInput.value;
+    //     if (!query) return;
+    //
+    //     // 隐藏二维码
+    //     qrCodeContainer.style.display = 'none';
+    //     label.style.display = 'none';
+    //
+    //     appendQuery(query, 'message-user');
+    //     queryInput.value = '';
+    //
+    //     // 添加加载动画
+    //     const loadingWrapper = document.createElement('div');
+    //     loadingWrapper.className = 'message-wrapper message-bot';
+    //     const loadingDiv = document.createElement('div');
+    //     loadingDiv.className = 'message';
+    //     const spinner = document.createElement('div');
+    //     spinner.className = 'loading-spinner';
+    //     loadingDiv.appendChild(spinner);
+    //     loadingWrapper.appendChild(loadingDiv);
+    //     messagesDiv.appendChild(loadingWrapper);
+    //
+    //     // 滚动到输入框位置
+    //     queryInput.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    //
+    //     fetch('/chat', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ query }),
+    //     })
+    //         .then(response => response.text())
+    //         .then(data => {
+    //             console.log('Success:', data);
+    //             try {
+    //                 const jsonData = JSON.parse(data);
+    //                 if (typeof jsonData === 'object' && jsonData !== null) {
+    //                     appendCodeMessage(JSON.stringify(jsonData, null, 2));
+    //                 } else {
+    //                     appendMessage(data, 'message-bot');
+    //                 }
+    //             } catch (error) {
+    //                 appendMessage(data, 'message-bot');
+    //             } finally {
+    //                 // 移除加载动画
+    //                 loadingWrapper.remove();
+    //                 // 滚动到输入框位置
+    //                 queryInput.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error:', error);
+    //             appendMessage('Error: ' + error.message, 'message-bot');
+    //             // 移除加载动画
+    //             loadingWrapper.remove();
+    //             // 滚动到输入框位置
+    //             queryInput.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    //         });
+    // }
+    // sendBtn.addEventListener('click', sendPostRequest);
+    //
+    // queryInput.addEventListener('keypress', function(event) {
+    //     if (event.key === 'Enter') {
+    //         if (event.shiftKey) {
+    //             // 按下 Shift + Enter 插入换行符
+    //             event.preventDefault();
+    //             const cursorPos = queryInput.selectionStart;
+    //             const textBeforeCursor = queryInput.value.substring(0, cursorPos);
+    //             const textAfterCursor = queryInput.value.substring(cursorPos);
+    //             queryInput.value = textBeforeCursor + '\n' + textAfterCursor;
+    //             queryInput.selectionStart = queryInput.selectionEnd = cursorPos + 1;
+    //
+    //             // 滚动到输入框位置
+    //             queryInput.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    //         } else {
+    //             // 按下 Enter 发送消息
+    //             event.preventDefault();
+    //             sendPostRequest();
+    //
+    //             // 滚动到输入框位置
+    //             queryInput.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    //         }
+    //     }
+    // });
+    //
+    // // 在点击输入框时隐藏二维码和标签
+    // queryInput.addEventListener('focus', function() {
+    //     qrCodeContainer.style.display = 'none';
+    //     label.style.display = 'none';
+    // });
+
+
+
+</script>
+
+</body>
+
+</html>
