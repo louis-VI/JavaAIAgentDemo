@@ -104,7 +104,7 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 For questions or suggestions, feel free to contact:  
 - **Author**: Louis VI  
-- **Email**: [Insert Your Email]  
+- **Email**: yunzhongyun666@foxmail.com  
 - **GitHub**: [https://github.com/louis-VI](https://github.com/louis-VI)  
 
 ---  
