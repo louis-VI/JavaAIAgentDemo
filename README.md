@@ -1,6 +1,3 @@
-以下是基于 **Spring Boot**、**Thymeleaf**、**WebSocket** 和 **LangChain4J** 技术栈生成的 `README.md` 文档模板：  
-
----
 
 # JavaAIAgentDemo  
 
